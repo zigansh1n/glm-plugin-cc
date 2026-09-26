@@ -1,5 +1,13 @@
 # glm-plugin-cc
 
+> **DashScope fork.** Uses Alibaba Model Studio (DashScope) when a DashScope key is set
+> (`DASHSCOPE_API_KEY` or `~/.config/dashscope/api-key`), endpoint
+> `https://dashscope.aliyuncs.com/apps/anthropic`; falls back to z.ai otherwise.
+> `GLM_ANTHROPIC_BASE_URL` overrides the endpoint for other regions. Claude Desktop host
+> variables are stripped from the child `claude -p` env. Install:
+> `/plugin marketplace add zigansh1n/glm-plugin-cc`, then `/plugin install glm@glm-dashscope`.
+
+
 > Use [GLM-5.3](https://z.ai/model-api) (z.ai) from inside [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) for code reviews or to delegate tasks.
 
 This plugin is for Claude Code users who want an easy way to start using GLM-5.3 from the workflow they already have — without leaving Claude Code, and without pointing their primary Claude session away from Anthropic.

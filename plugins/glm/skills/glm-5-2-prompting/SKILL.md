@@ -10,7 +10,7 @@ Use this skill when constructing prompts that the `glm` plugin forwards to GLM-5
 ## Model Identity
 
 - **Model**: GLM-5.3, Z.ai's coding model.
-- **Endpoint**: `https://api.z.ai/api/anthropic` (Anthropic Messages compatible).
+- **Endpoint**: DashScope `https://dashscope.aliyuncs.com/apps/anthropic` when a DashScope key is configured, otherwise z.ai `https://api.z.ai/api/anthropic` (both Anthropic Messages compatible).
 - **Access path**: invoked through the headless `claude` subprocess, so tool calls are formatted as Anthropic `tool_use` blocks. GLM emits these correctly.
 - **Context window**: up to ~1M input tokens.
 - **Output window**: ~32k tokens (verify current cap before relying on it for very long generations).

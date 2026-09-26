@@ -35,6 +35,8 @@ beforeEach(() => {
   vi.unstubAllEnvs();
   delete process.env.ZAI_API_KEY;
   delete process.env.ZA_API_KEY;
+  delete process.env.DASHSCOPE_API_KEY;
+  delete process.env.GLM_ANTHROPIC_BASE_URL;
   keyFileExists = false;
   keyFileContent = "";
   mkdirSync(FAKE_HOME, { recursive: true });
@@ -133,5 +135,34 @@ describe("config", () => {
     const next = config.writeSettings({ extraField: "x" });
     expect(next.reviewGate).toBe(true);
     expect(next.extraField).toBe("x");
+  });
+
+  it("DashScope key wins and points at the DashScope Anthropic endpoint", async () => {
+    const { buildZaiEnv, resolveProvider, DASHSCOPE_ANTHROPIC_BASE_URL } = await import("../plugins/glm/scripts/config.mjs");
+    vi.stubEnv("DASHSCOPE_API_KEY", "ds-key");
+    vi.stubEnv("ZAI_API_KEY", "zai-key");
+    expect(resolveProvider().name).toBe("dashscope");
+    const env = buildZaiEnv("glm-5.3");
+    expect(env.ANTHROPIC_BASE_URL).toBe(DASHSCOPE_ANTHROPIC_BASE_URL);
+    expect(env.ANTHROPIC_AUTH_TOKEN).toBe("ds-key");
+  });
+
+  it("GLM_ANTHROPIC_BASE_URL overrides the endpoint", async () => {
+    const { buildZaiEnv } = await import("../plugins/glm/scripts/config.mjs");
+    vi.stubEnv("DASHSCOPE_API_KEY", "ds-key");
+    vi.stubEnv("GLM_ANTHROPIC_BASE_URL", "https://ws.ap-southeast-1.maas.aliyuncs.com/apps/anthropic");
+    expect(buildZaiEnv().ANTHROPIC_BASE_URL).toBe("https://ws.ap-southeast-1.maas.aliyuncs.com/apps/anthropic");
+  });
+
+  it("drops Claude Desktop host variables from the child env", async () => {
+    const { buildZaiEnv } = await import("../plugins/glm/scripts/config.mjs");
+    vi.stubEnv("ZAI_API_KEY", "k");
+    vi.stubEnv("CLAUDE_CODE_MESSAGING_SOCKET", "/tmp/sock");
+    vi.stubEnv("CLAUDE_CODE_SDK_HAS_HOST_AUTH_REFRESH", "1");
+    vi.stubEnv("CLAUDE_CODE_EFFORT_LEVEL", "high");
+    const env = buildZaiEnv();
+    expect(env.CLAUDE_CODE_MESSAGING_SOCKET).toBeUndefined();
+    expect(env.CLAUDE_CODE_SDK_HAS_HOST_AUTH_REFRESH).toBeUndefined();
+    expect(env.CLAUDE_CODE_EFFORT_LEVEL).toBe("high");
   });
 });

@@ -24,6 +24,7 @@ vi.mock("../plugins/glm/scripts/config.mjs", () => ({
   SETTINGS_PATH: "/tmp/glm-broker-test/settings.json",
   KEY_FILE: "/tmp/glm-broker-test/api-key",
   resolveApiKey: () => "test-key",
+  resolveProvider: () => ({ name: "zai", baseUrl: ZAI_ANTHROPIC_BASE_URL, key: "test-key", source: "ZAI_API_KEY" }),
   isReady: () => true,
   buildZaiEnv: (model = DEFAULT_MODEL) => ({
     ...process.env,

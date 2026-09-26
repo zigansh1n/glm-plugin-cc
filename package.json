@@ -1,6 +1,6 @@
 {
   "name": "glm-plugin-cc",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Use GLM-5.3 (z.ai) from inside Claude Code for code reviews or to delegate tasks.",
   "type": "module",
   "private": true,

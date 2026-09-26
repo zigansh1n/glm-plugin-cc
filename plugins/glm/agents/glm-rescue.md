@@ -1,6 +1,6 @@
 ---
 name: glm-rescue
-description: Subagent that delegates active debugging, multi-file refactors, or implementation loops to GLM-5.3 via the glm plugin's broker. Use for tasks you want to run against GLM rather than the primary model.
+description: Delegates a task to GLM-5.3 through the glm plugin broker. Use ONLY when the user explicitly asks to hand work to GLM; never on your own initiative.
 tools: Bash
 model: sonnet
 ---

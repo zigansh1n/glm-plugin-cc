@@ -9,6 +9,7 @@ import { tmpdir } from "node:os";
 import {
   buildZaiEnv,
   resolveApiKey,
+  resolveProvider,
   isReady,
   DEFAULT_MODEL,
   DEFAULT_EFFORT,
@@ -503,13 +504,15 @@ async function cmdSetup(args) {
   console.log("GLM Plugin Setup");
   console.log("================");
   console.log(`claude binary: ${claudeBin}`);
-  console.log(`api key: ${key ? "found (" + (process.env.ZAI_API_KEY || process.env.ZA_API_KEY ? "env" : "~/.config/zai/api-key") + ")" : "NOT FOUND"}`);
+  const provider = resolveProvider();
+  console.log(`api key: ${provider ? `found (${provider.source})` : "NOT FOUND"}`);
+  console.log(`endpoint: ${provider ? provider.baseUrl : "-"}`);
   console.log(`plugin dir: ${PLUGIN_DIR}`);
   console.log(`review gate: ${readSettings().reviewGate ? "ENABLED" : "disabled"}`);
   if (!key) {
     console.log("\nTo get ready:");
-    console.log("  export ZAI_API_KEY=...     # or");
-    console.log("  mkdir -p ~/.config/zai && echo -n 'YOUR_KEY' > ~/.config/zai/api-key");
+    console.log("  DashScope: export DASHSCOPE_API_KEY=...  or put it in ~/.config/dashscope/api-key");
+    console.log("  z.ai:      export ZAI_API_KEY=...        or put it in ~/.config/zai/api-key");
     if (!check) process.exit(1);
   } else if (!check) {
     console.log("\nRunning readiness check...");
@@ -521,7 +524,7 @@ async function cmdSetup(args) {
 async function cmdEnv() {
   const key = resolveApiKey();
   console.log(JSON.stringify({
-    ZAI_ANTHROPIC_BASE_URL: "https://api.z.ai/api/anthropic",
+    ANTHROPIC_BASE_URL: resolveProvider()?.baseUrl ?? null,
     ANTHROPIC_AUTH_TOKEN: key ? "***" : null,
     ANTHROPIC_MODEL: DEFAULT_MODEL,
     DEFAULT_EFFORT,

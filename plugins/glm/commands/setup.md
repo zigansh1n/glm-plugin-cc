@@ -1,11 +1,11 @@
 ---
 name: setup
-description: Check GLM plugin readiness and toggle the stop-time review gate. Run after install to confirm the z.ai key and claude binary are available.
+description: Check GLM plugin readiness and toggle the stop-time review gate. Run after install to confirm the GLM key (DashScope or z.ai) and claude binary are available.
 ---
 
 # /glm:setup
 
-Verifies that the z.ai API key and `claude` CLI are present, prints the configured plugin directory, and optionally enables/disables the review gate.
+Verifies that the GLM API key (DashScope or z.ai) and `claude` CLI are present, prints the configured plugin directory, and optionally enables/disables the review gate.
 
 ## Usage
 

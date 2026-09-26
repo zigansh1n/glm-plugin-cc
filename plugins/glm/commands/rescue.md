@@ -1,5 +1,5 @@
 ---
-description: Hand a task to GLM-5.3 via z.ai to investigate or fix
+description: Hand a task to GLM-5.3 (DashScope or z.ai) to investigate or fix
 argument-hint: '[--wait|--background] [--resume|--fresh] [--model <m>] <task>'
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash(node:*), Bash(mktemp:*), Write
